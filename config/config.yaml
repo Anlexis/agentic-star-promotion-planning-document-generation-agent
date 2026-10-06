@@ -1,0 +1,19 @@
+# Runtime parameters — loaded by the platform registry and passed as
+# Graph(config=...). Separate from config/agent.yaml, which is the static
+# manifest the registry reads to discover this agent.
+
+# Backbone retry budget, consumed by the outer graph's routing.
+max_retry: 3
+# Reserved by the runtime configuration contract. The currently installed
+# framework validates this key but does not act on it; it is kept because the
+# platform owns the timeout, not this template.
+timeout_s: 60
+
+# Read by DomainWorkflowGraph via PromotionPlanGraphNode._parent_config() and
+# seeded into State, where OutputFormatNode reads it. A caller may override it
+# per request with input_context.output_format.
+output:
+  # "markdown" — a structured document with section headings, for human review
+  # "json"     — an object with the keys overview, timeline, channel_breakdown,
+  #              budget_allocation, kpis, for downstream integration
+  format: "markdown"
